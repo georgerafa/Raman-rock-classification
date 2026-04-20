@@ -1,4 +1,4 @@
-## Project Overview
+# Project Overview
 
 Machine learning classification of three rock types from Raman spectroscopy data
 acquired on a conveyor belt system at two belt speeds.
@@ -9,8 +9,8 @@ acquired on a conveyor belt system at two belt speeds.
 - Leitendorf Limestone
 
 **Belt speeds:**
-- 1.83 Hz 
-- 5.10 Hz 
+- 1.83 Hz
+- 5.10 Hz
 
 **Two modelling approaches were explored:**
 1. **1D CNN** on raw spectral intensity profiles (1060 wavenumber points per sample)
@@ -23,7 +23,7 @@ acquired on a conveyor belt system at two belt speeds.
 ```
 /
 ├── README.md
-                         MAIN NOTEBOOK
+                         MAIN NOTEBOOKS
 
 ├── 1d_cnn_per_speed_csv.ipynb
 ├── 1d_cnn_combined_speed_csv.ipynb
@@ -31,20 +31,22 @@ acquired on a conveyor belt system at two belt speeds.
 ├── 1d_cnn_als_correction_and_binary_cl.ipynb
 ├── 1d_cnn_speed_regime_comparison.ipynb
 ├── resnet18_baseline.ipynb
-├── resnet_full_evaluation.ipynb 
+├── resnet_full_evaluation.ipynb
+├── split_fraction_study.ipynb
 ├── rock_csvs
 ├── rock_txts
 ├── rocks_spectral_224
 
-                     AYTO GENERATED ON THE RUN
+                     AUTO-GENERATED ON RUN
 
-├── results_1d_cnn_per_speed_csv/ 
+├── results_1d_cnn_per_speed_csv/
 ├── results_1d_cnn_combined_speed_csv/
 ├── results_1d_cnn_raw_txt/
 ├── results_1d_cnn_als_correction_and_binary_cl/
 ├── results_1d_cnn_speed_regime_comparison/
 ├── results_resnet18_baseline/
-└── results_resnet_full_evaluation/
+├── results_resnet_full_evaluation/
+└── results_split_fraction_study/
 ```
 
 Each results folder is created automatically when the corresponding notebook runs.
@@ -52,7 +54,6 @@ Each results folder is created automatically when the corresponding notebook run
 ---
 
 ## Notebook Descriptions
-
 
 ### 1. `1d_cnn_per_speed_csv.ipynb`
 **1D CNN on spectral profiles, separate speeds, CSV input**
@@ -117,7 +118,7 @@ Two distinct experiments in one notebook:
 
 **Part 1) ALS Baseline Correction:**
 Applies Asymmetric Least Squares (ALS) baseline correction to Granite spectra
-to remove the fluorescence background hump, then retrains the 3 class classifier.
+to remove the fluorescence background hump, then retrains the 3-class classifier.
 Result: no improvement in accuracy (~90%). Conclusion: the model was already
 classifying Granite correctly using the fluorescence shape as a feature.
 
@@ -166,10 +167,10 @@ No advanced evaluation features.
 
 ---
 
-### 7. `resnet_full_evaluation.ipynb`: **MAIN NOTEBOOK**
+### 7. `resnet_full_evaluation.ipynb`
 **ResNet-18 full evaluation pipeline with all experiments**
 
-The definitive and most complete notebook. Extends notebook 6 with a full
+The definitive and most complete ResNet notebook. Extends notebook 6 with a full
 suite of experiments and evaluation tools. Supports ResNet-18, ResNet-34,
 ResNet-50, and EfficientNet-B0 via a unified `build_model()` function.
 
@@ -209,19 +210,104 @@ ResNet-50, and EfficientNet-B0 via a unified `build_model()` function.
 
 ---
 
+### 8. `split_fraction_study.ipynb`
+**ResNet-18 data efficiency and train/test split sensitivity study**
+
+Runs a 4 × 9 grid sweep** (4 data fractions × 9 test-split sizes) on both belt speeds = 72 independent training runs, each a full ResNet-18 trained for 15 epochs with the best fixed hyperparameters from notebook 7. All runs share a single seed.
+Results are saved per-run to `results_all_runs.csv` and as labelled plots to three
+sub-folders.
+
+**Sweep parameters:**
+
+| Axis | Values |
+|------|--------|
+| Data fraction (% of all images used before splitting) | 20%, 40%, 60%, 80% |
+| Test-split size (% of sub-sampled data reserved as test set) | 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% |
+---
+
+#### Block 1 — Overall Accuracy Results
+
+| Metric | 1.83 Hz | 5.10 Hz |
+|--------|---------|---------|
+| Max accuracy (best config) | 99.6% | 99.8% |
+| Mean accuracy (all 36 configs) | 96.6% | 97.5% |
+| Min accuracy (worst config) | 88.0% | 89.6% |
+| Best config | data=20%, test-split=10% | data=40%, test-split=10% |
+| Worst config | data=20%, test-split=90% | data=20%, test-split=90% |
+
+---
+
+**Training samples required vs. accuracy (1.83 Hz):**
+
+| n_train | Config | Accuracy |
+|---------|--------|----------|
+| 241 | 20% data, 90% test | 88.0% |
+| 483 | 20% data, 80% test | 90.7% |
+| 724 | 20% data, 70% test | 91.6% |
+| 966 | 20% data, 60% test | 93.4% |
+| 2,174 | 20% data, 10% test | 99.6% |
+| 4,348 | 40% data, 10% test | 99.6% |
+| 8,697 | 80% data, 10% test | 99.6% |
+
+---
+
+#### Block 2 — Per-Rock Recall Results
+
+| Rock | Mean recall — 1.83 Hz | Mean recall — 5.10 Hz |
+|------|----------------------|----------------------|
+| S10Granite | 98.7% | 98.6% |
+| Holstein Sandstone | 96.1% | 97.0% |
+| Leitendorf Limestone | 94.9% | 96.8% |
+
+---
+
+#### Final Comparison — 1.83 Hz vs 5.10 Hz
+
+---
+
+**FIN-01 — Full heatmaps: overall accuracy + per-rock recall side by side**
+
+---
+
+**FIN-02 — Accuracy difference heatmap: 1.83 Hz minus 5.10 Hz**
+
+---
+
+**FIN-03 — Summary bar charts: accuracy range and mean per-rock recall**
+
+---
+
+**FIN-04 — Normalised confusion matrices: best and worst configs on both datasets**
+
+---
+
+**FIN-05 — Per-rock recall difference: 1.83 Hz minus 5.10 Hz**
+
+---
+
+**Input:** `rocks_spectral_224/`
+
+**Output folder:** `results_split_fraction_study/`
+
+---
+
 ## Key Findings Summary
 
 | Finding | Detail |
 |---------|--------|
-| Best model | ResNet-18, 99.59% (1.83 Hz), 99.57% (5.10 Hz) |
-| 1D CNN ceiling | ~90%  limited by Sandstone/Limestone spectral overlap |
-| ResNet-18 advantage | ~10% absolute improvement over 1D CNN |
-| Granite | Nearly perfect in all models: fluorescence hump is highly discriminative |
-| Main error source | Sandstone/Limestone confusion physically unavoidable spectral similarity |
-| Overfitting | Not observed: training/test curves parallel, K-fold ±0.13% (1.83 Hz) |
-| 5.10 Hz instability | Dataset-intrinsic: confirmed via seed testing, not model failure |
-| Grad-CAM | Model focuses on fluorescence hump (Granite) and Raman peak line (Sandstone/Limestone) |
+| Best model | ResNet-18, 99.6% (1.83 Hz), 99.8% (5.10 Hz) |
+| 1D CNN ceiling | ~90%, limited by Sandstone/Limestone spectral overlap |
+| ResNet-18 advantage | ~10 pp absolute improvement over 1D CNN |
+| Granite | Near-perfect in all models and all data regimes: fluorescence hump is highly discriminative |
+| Main error source | Sandstone/Limestone confusion; physically unavoidable spectral similarity between quartz and calcite peaks |
+| Overfitting | Not observed: training/test curves remain parallel; K-fold ±0.13% (1.83 Hz) |
+| 5.10 Hz instability | Dataset-intrinsic: reconfirmed by seed testing (notebook 7) and replicated in split study (notebook 8) |
+| Grad-CAM | Model focuses on fluorescence hump (Granite) and Raman peak region (Sandstone/Limestone) |
 | t-SNE | Three clearly separated clusters: model learned genuine spectral representations |
+| Data efficiency | ResNet-18 is not data-limited: ~2,200 training images suffice for ≥99.6% accuracy; tripling the training set yields no improvement |
+| Minimum viable dataset | ~240 training images → 88% accuracy; ~500 → 90%; ~1,000 → 93%; ~2,200 → 99.6% |
+| Overall accuracy is optimistic | A config reporting ~93% overall can have Leitendorf recall as low as 84–88%; per-rock recall is the correct deployment metric |
+| Error mode under scarcity | Leitendorf → Holstein is the dominant failure (16–17% misclassification rate at worst config); Granite also begins to bleed at very low training counts |
 
 ---
 
@@ -232,5 +318,3 @@ ResNet-50, and EfficientNet-B0 via a unified `build_model()` function.
 | Raw TXT files | `rocks_txts/` |
 | CSV profiles | `rock_csvs/` |
 | Resized JPG images (224×224) | `rocks_spectral_224/` |
-
-
