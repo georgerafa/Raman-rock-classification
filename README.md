@@ -213,7 +213,7 @@ ResNet-50, and EfficientNet-B0 via a unified `build_model()` function.
 ### 8. `split_fraction_study.ipynb`
 **ResNet-18 data efficiency and train/test split sensitivity study**
 
-Runs a 4 × 9 grid sweep** (4 data fractions × 9 test-split sizes) on both belt speeds = 72 independent training runs, each a full ResNet-18 trained for 15 epochs with the best fixed hyperparameters from notebook 7. All runs share a single seed.
+Runs a 5 × 9 grid sweep** (5 data fractions × 9 test-split sizes) on both belt speeds = 90 independent training runs, each a full ResNet-18 trained for 15 epochs with the best fixed hyperparameters from notebook 7. All runs share a single seed.
 Results are saved per-run to `results_all_runs.csv` and as labelled plots to three
 sub-folders.
 
@@ -221,7 +221,7 @@ sub-folders.
 
 | Axis | Values |
 |------|--------|
-| Data fraction (% of all images used before splitting) | 20%, 40%, 60%, 80% |
+| Data fraction (% of all images used before splitting) | 20%, 40%, 60%, 80%, 100% |
 | Test-split size (% of sub-sampled data reserved as test set) | 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% |
 ---
 
@@ -229,10 +229,10 @@ sub-folders.
 
 | Metric | 1.83 Hz | 5.10 Hz |
 |--------|---------|---------|
-| Max accuracy (best config) | 99.6% | 99.8% |
+| Max accuracy (best config) | 99.7% | 99.8% |
 | Mean accuracy (all 36 configs) | 96.6% | 97.5% |
 | Min accuracy (worst config) | 88.0% | 89.6% |
-| Best config | data=20%, test-split=10% | data=40%, test-split=10% |
+| Best config | data=100%, test-split=10% | data=40%, test-split=10% |
 | Worst config | data=20%, test-split=90% | data=20%, test-split=90% |
 
 ---
@@ -248,6 +248,8 @@ sub-folders.
 | 2,174 | 20% data, 10% test | 99.6% |
 | 4,348 | 40% data, 10% test | 99.6% |
 | 8,697 | 80% data, 10% test | 99.6% |
+| 10,870 | 100% data, 10% test | 99.7% |
+
 
 ---
 
@@ -295,7 +297,7 @@ sub-folders.
 
 | Finding | Detail |
 |---------|--------|
-| Best model | ResNet-18, 99.6% (1.83 Hz), 99.8% (5.10 Hz) |
+| Best model | ResNet-18, 99.7% (1.83 Hz), 99.8% (5.10 Hz) |
 | 1D CNN ceiling | ~90%, limited by Sandstone/Limestone spectral overlap |
 | ResNet-18 advantage | ~10 pp absolute improvement over 1D CNN |
 | Granite | Near-perfect in all models and all data regimes: fluorescence hump is highly discriminative |
@@ -304,7 +306,7 @@ sub-folders.
 | 5.10 Hz instability | Dataset-intrinsic: reconfirmed by seed testing (notebook 7) and replicated in split study (notebook 8) |
 | Grad-CAM | Model focuses on fluorescence hump (Granite) and Raman peak region (Sandstone/Limestone) |
 | t-SNE | Three clearly separated clusters: model learned genuine spectral representations |
-| Data efficiency | ResNet-18 is not data-limited: ~2,200 training images suffice for ≥99.6% accuracy; tripling the training set yields no improvement |
+| Data efficiency | ResNet-18 is not data-limited: ~2,200 training images suffice for ≥99.6% accuracy. Using the full dataset (~10,870 images) yields a marginal gain to 99.7% |
 | Minimum viable dataset | ~240 training images → 88% accuracy; ~500 → 90%; ~1,000 → 93%; ~2,200 → 99.6% |
 | Overall accuracy is optimistic | A config reporting ~93% overall can have Leitendorf recall as low as 84–88%; per-rock recall is the correct deployment metric |
 | Error mode under scarcity | Leitendorf → Holstein is the dominant failure (16–17% misclassification rate at worst config); Granite also begins to bleed at very low training counts |
