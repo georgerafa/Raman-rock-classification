@@ -4,9 +4,9 @@ Machine learning classification of three rock types from Raman spectroscopy data
 acquired on a conveyor belt system at two belt speeds.
 
 **Rocks classified:**
-- S10Granite
-- Holstein Sandstone
-- Leitendorf Limestone
+- Granite
+- Sandstone
+- Limestone
 
 **Belt speeds:**
 - 1.83 Hz
@@ -23,35 +23,41 @@ acquired on a conveyor belt system at two belt speeds.
 
 ```
 /
+/
 ├── README.md
+                                CLASSIFICATION NOTEBOOKS
+├── 1d_cnn_per_speed_csv.ipynb                      ← Main 1D CNN (per speed, CSV input)
+├── 1d_cnn_combined_speed_csv.ipynb                 ← 1D CNN both speeds merged
+├── 1d_cnn_raw_txt.ipynb                            ← 1D CNN from raw TXT (no CSV step)
+├── 1d_cnn_als_correction_and_binary_cl.ipynb       ← ALS correction + binary classifier
+├── 1d_cnn_speed_regime_comparison.ipynb            ← Full 1D CNN comparison
+├── resnet18_baseline.ipynb                         ← ResNet-18 baseline
+├── resnet_full_evaluation.ipynb                    ← ResNet-18 full evaluation (MAIN)
+├── split_fraction_study.ipynb                      ← Data efficiency sensitivity study
+├── inference_new_data.ipynb                        ← Inference on new rocks and baseline results
+├── rock_classifier_combined.ipynb                  ← Combined train+eval+OOD+inference
+├── rock_classifier_multisource.ipynb               ← Multi-source training (generalisation fix)
+├── cnn_1d_train_and_inference.ipynb                ← 1D CNN inference on new rock profiles
+├── ood_autoencoder_1d.ipynb                        ← 1D autoencoder OOD detector
+├── rock_classifier_fraction_newrock_test.ipynb     ← Fraction study × old new-rock folders
+├── rock_classifier_fraction_new_samples_test.ipynb ← Fraction study × new original rocks samples
+├── ood_autoencoder_new_samples.ipynb               ← Autoencoder OOD on new original rocks profiles
+├── cnn_1d_new_samples.ipynb                        ← 1D CNN on new original profiles
+├── rock_classifier_balanced_multisource.ipynb      ← Balanced multi-source ResNet-18
+├── cross_speed_generalisation.ipynb                ← Cross-speed generalisation study on new original rocks profiles
 
-                    CLASSIFICATION NOTEBOOKS
+                                     DATA FOLDERS
+├── rock_csvs/                                    ← Converted CSV profiles (original training)
+├── rock_txts/                                    ← Raw PROFILES txt (original training)
+├── rocks_spectral_224/                           ← Resized 224×224 JPG images (training)
+├── for_test_data_spectral_224/                   ← Resized 224×224 JPG images ( new-rock test)
+├── profiles/                                     ← Raw PROFILES txt ( new-rock folders)
+├── profiles_csv/                                 ← Converted CSV profiles ( new-rock folders)
+├── new_profiles_txts/                            ← Raw PROFILES txt (new samples on original rocks )
+├── new_profiles_csv/                             ← Converted CSV profiles (new samples on original rocks )
+└── 20260511_New_Granite-Limestone-Sandstone_224/ ← Resized 224×224 JPG images (new samples on original rocks )
 
-├── 1d_cnn_per_speed_csv.ipynb                ← Main 1D CNN (per speed, CSV input)
-├── 1d_cnn_combined_speed_csv.ipynb           ← 1D CNN both speeds merged
-├── 1d_cnn_raw_txt.ipynb                      ← 1D CNN from raw TXT (no CSV step)
-├── 1d_cnn_als_correction_and_binary_cl.ipynb ← ALS correction + binary classifier
-├── 1d_cnn_speed_regime_comparison.ipynb      ← Full 1D CNN comparison
-├── resnet18_baseline.ipynb                   ← ResNet-18 baseline
-├── resnet_full_evaluation.ipynb              ← ResNet-18 full evaluation (MAIN)
-├── split_fraction_study.ipynb                ← Data efficiency sensitivity study
-├── inference_new_data.ipynb                  ← Inference on new rocks and baseline results
-├── rock_classifier_combined.ipynb            ← Combined train+eval+OOD+inference
-├── rock_classifier_multisource.ipynb         ← Multi-source training (generalisation fix)
-├── cnn_1d_train_and_inference.ipynb          ← 1D CNN inference on new rock profiles
-├── ood_autoencoder_1d.ipynb                  ← 1D autoencoder OOD detector
-
-                         DATA FOLDERS
-
-├── rock_csvs/                               ← Converted CSV profiles
-├── rock_txts/                               ← Raw PROFILES txt
-├── rocks_spectral_224/                      ← Resized 224x224 JPG images (training)
-├── for_test_data_spectral_224/              ← Resized 224x224 JPG images (new test data)
-├── profiles/                                ← Raw PROFILES txt for new rock folders (new test data)
-└── profiles_csv/                            ← Converted CSV profiles for new rock folders (new test data)
-
-                     AUTO-GENERATED ON RUN
-
+                                  AUTO-GENERATED ON RUN
 ├── results_1d_cnn_per_speed_csv/
 ├── results_1d_cnn_combined_speed_csv/
 ├── results_1d_cnn_raw_txt/
@@ -64,7 +70,13 @@ acquired on a conveyor belt system at two belt speeds.
 ├── results_rock_classifier_combined/
 ├── results_rock_classifier_multisource/
 ├── results_1d_cnn_inference/
-└── results_ood_autoencoder_1d/
+├── results_ood_autoencoder_1d/
+├── results_fraction_newrock_test/
+├── results_fraction_new_samples_test/
+├── results_ood_autoencoder_new_samples/
+├── results_1d_cnn_new_samples/
+├── results_balanced_multisource/
+└── results_cross_speed/
 ```
 
 Each results folder is created automatically when the corresponding notebook runs.
@@ -90,6 +102,7 @@ LayerNorm, and a final Linear(64→3) classification head. ~17,500 parameters.
 - Granite nearly perfect (~95%) due to strong fluorescence signature
 
 **Input:** `rock_csvs/`
+
 **Output folder:** `results_1d_cnn_per_speed_csv/`
 
 ---
@@ -105,6 +118,7 @@ can generalise across both belt speeds.
 per-speed models, suggesting the spectral features are speed-invariant.
 
 **Input:** `rock_csvs/` (both speeds)
+
 **Output folder:** `results_1d_cnn_combined_speed_csv/`
 
 ---
@@ -120,6 +134,7 @@ the raw acquisition files directly. Handles the specific file format:
 - Converts comma decimal separator (`+0,33` format) to float
 
 **Input:** `rocks_txts/`
+
 **Output folder:** `results_1d_cnn_raw_txt/`
 
 ---
@@ -138,6 +153,7 @@ shape as a feature so removing it loses information.
 physical spectral overlap (quartz vs calcite peak similarity) and not a modelling failure.
 
 **Input:** `rock_csvs/`
+
 **Output folder:** `results_1d_cnn_als_correction_and_binary_cl/`
 
 ---
@@ -149,6 +165,7 @@ Trains three separate models and presents a side-by-side comparison of all resul
 including loss curves, accuracy curves, and confusion matrices.
 
 **Input:** `rock_csvs/`
+
 **Output folder:** `results_1d_cnn_speed_regime_comparison/`
 
 ---
@@ -164,6 +181,7 @@ Dropout(0.3) + Linear(512->3).
 **Best result:** ~99.63-99.67% on 1.83 Hz.
 
 **Input:** `rocks_spectral_224/`
+
 **Output folder:** `results_resnet18_baseline/`
 
 ---
@@ -198,6 +216,7 @@ via a unified `build_model()` function.
 **Architecture winner:** ResNet-18 outperforms ResNet-34 (99.38%), ResNet-50 (99.29%), EfficientNet-B0 (98.84%)
 
 **Input:** `rocks_spectral_224/`
+
 **Output folder:** `results_resnet_full_evaluation/`
 
 ---
@@ -245,6 +264,7 @@ with the best fixed hyperparameters from notebook 7.
 | Leitendorf Limestone | 94.9% | 96.8% |
 
 **Input:** `rocks_spectral_224/`
+
 **Output folder:** `results_split_fraction_study/`
 
 ---
@@ -261,7 +281,7 @@ This notebook established the baseline failure results that motivated all
 subsequent work (multi-source training, OOD detection, 1D approaches).
 
 **New test data used:** `for_test_data_spectral_224/` (all 9 new rock folders,
-4,556 images total converted from BMP by `bmp_to_spectral_224.py`)
+4,556 images total converted from BMP)
 
 **Inference results (original single-source ResNet, no OOD detection):**
 
@@ -287,6 +307,7 @@ subsequent work (multi-source training, OOD detection, 1D approaches).
   the 1D autoencoder OOD detector (notebook 12)
 
 **Input:** `for_test_data_spectral_224/` + saved `.pth` from `resnet_full_evaluation.ipynb`
+
 **Output folder:** `results_inference_new_data/`
 
 ---
@@ -301,7 +322,7 @@ then introduces temperature scaling calibration and energy-score OOD detection
 a t-SNE of training + new rock features combined.
  
 **New test data used:** `for_test_data_spectral_224/` (all 9 new rock folders,
-4,556 images total converted from BMP by `bmp_to_spectral_224.py`)
+4,556 images total converted from BMP)
  
 **Inference results on new rock folders (single-source model + energy-score OOD):**
  
@@ -326,6 +347,7 @@ a t-SNE of training + new rock features combined.
   destroying the peak position information that makes Dunite physically distinct
   
 **Input:** `rocks_spectral_224/` (training) + `for_test_data_spectral_224/` (inference)
+
 **Output folder:** `results_rock_classifier_combined/`
  
 ---
@@ -372,7 +394,9 @@ remaining unseen folder — all other folders became training data)
 - Multi-source training is the correct and necessary fix for generalisation;
   it is not a workaround but a reflection of how supervised classifiers must work:
   they can only generalise within spectral variability seen during training
+  
 **Input:** `rocks_spectral_224/` + `for_test_data_spectral_224/`
+  
 **Output folder:** `results_rock_classifier_multisource/`
  
 ---
@@ -386,7 +410,7 @@ three known rock classes only using `rock_csvs/`. OOD score = per-spectrum
 MSE reconstruction error.
 
 **New test data used:** `profiles_csv/` — 1060-point raw spectral profiles for all
-9 new rock folders, converted from PROFILES_*.txt by `convert_new_rocks.py`
+9 new rock folders 
  
 **Inference results on new rock folders (1D autoencoder OOD, threshold=0.01191):**
  
@@ -401,8 +425,10 @@ MSE reconstruction error.
 | Limestone_Rax_1-83Hz_1 | Leitendorf (in-distrib) | ~0.004 | <5% | In-distribution |
 | Limestone_Rax_1-83Hz_2 | Leitendorf (in-distrib) | ~0.004 | ~10% | Slightly elevated |
 | SandstoneNew_1-83Hz | Holstein (in-distrib) | ~0.001 | <5% | In-distribution |
+
  
 **OOD detection performance (Dunite vs all known rocks):**
+
  
 | Metric | Value |
 |--------|-------|
@@ -427,6 +453,7 @@ MSE reconstruction error.
   
 **Input (training):** `rock_csvs/` (original 3 classes only)
 **Input (test):** `profiles_csv/` (new rock folders)
+
 **Output folder:** `results_ood_autoencoder_1d/`
  
 ---
@@ -470,17 +497,246 @@ then runs inference on all new rock profile CSVs from `profiles_csv/` using the
 
 **Input (training):** `rock_csvs/` (original 3 classes only)
 **Input (test):** `profiles_csv/` + autoencoder from notebook 11
+
 **Output folder:** `results_1d_cnn_inference/`
  
 ---
  
-## Data Paths (change accordingly in each model)
+### 14. `rock_classifier_fraction_newrock_test.ipynb`
+**ResNet-18 fraction study: how much original data is needed to classify new rock types?**
+Trains ResNet-18 on increasing fractions (30%–100%) of the original training data,
+then tests on the old new-rock folders from `for_test_data_spectral_224/`.
+Directly asks: does adding more original data fix the misclassification of
+Gran_Phil, CalcSil, and SstNew?
+
+**New test data used:** `for_test_data_spectral_224/` (same 9 new rock folders as notebooks 9–13)
+
+**Key findings:**
+- Gran_Phil accuracy = **0% at all fractions** — more original data never helps
+  because the failure is spectral identity mismatch, not data quantity. Gran_Phil
+  is a quartz-dominated granite with no fluorescence hump. The model learned
+  "Granite = fluorescence hump" from S10Granite and no amount of S10Granite data
+  teaches it to recognise a hump-free granite
+- SandstoneNew remains near random across all fractions (only 5 valid profiles
+  after CSV conversion)
+- Gneis and Lst_Rax remain correctly classified at all fractions sonce their spectra
+  are consistent with the training classes they map to
+- The model fails on mineralogically different rocks regardless of training size.
+  
+**Input:** `rocks_spectral_224/` (training fractions) + `for_test_data_spectral_224/` (test)
+
+**Output folder:** `results_fraction_newrock_test/`
+
+---
+
+### 15. `rock_classifier_fraction_new_samples_test.ipynb`
+**ResNet-18 fraction study: cross-session generalisation to new acquisitions**
+Trains ResNet-18 on increasing fractions (20%–100%) of the original data,
+then tests on the new samples of the original rocks (fresh acquisitions of the same 3 rock
+types collected months after the original dataset). 3 seeds per fraction → 24 total
+training runs. Shading shows ±1 std across seeds.
+
+**New test data used:** `~/20260511_New_Granite-Limestone-Sandstone_224/`
+(400 images per folder × 6 folders = 2,400 total — never used in training)
+
+**Inference results (mean across 3 seeds):**
  
+| Fraction | Granite | Sandstone | Limestone |
+|----------|---------|-----------|-----------|
+| 20% | ~93% | ~97% | ~95% |
+| 30% | ~97% | ~97% | ~98% |
+| 40% | ~86% | ~96% | ~98% |
+| 50% | ~81% | ~97% | ~98% |
+| 60% | ~81% | ~93% | ~99% |
+| 70% | ~94% | ~95% | ~99% |
+| 80% | ~83% | ~95% | ~98% |
+| 100% | ~94% | ~96% | ~99% |
+ 
+
+
+**Key findings:**
+- All 3 classes exceed 93% accuracy at 20% training data (~4,800 images)
+- Accuracy is nearly flat across all fractions — the model is not data-limited
+- The entire heatmap is deep green: no fraction, no class, no speed drops below 81%
+- Proves the model learned true mineral signatures (fluorescence hump, quartz
+  peaks, calcite peaks), not dataset-specific acquisition artifacts
+  
+**Input:** `rocks_spectral_224/` (training) + `~/20260511_New_Granite-Limestone-Sandstone_224/` (test)
+
+**Output folder:** `results_fraction_new_samples_test/`
+
+---
+
+### 16. `ood_autoencoder_new_samples.ipynb`
+**1D MLP autoencoder: trained on original data,tested on the new samples of the original rocks**
+Same architecture as notebook 12 (1060→512→128→32→128→512→1060, LATENT_DIM=32,
+EPOCHS=80). Trained on original `rock_csvs/` only. Inference on `~/new_profiles_csv/`
+— the 1060-point spectral profiles extracted from the new acquisitions.
+Includes SPEC-01: a 3×4 spectral comparison plot showing original vs new samples
+at both belt speeds for all 3 classes, with individual spectra and median overlay.
+
+**New test data used:** `~/new_profiles_csv/` (400 profiles × 6 CSV files)
+
+**OOD inference results on new  samples:**
+| Folder | Expected | Mean MSE | OOD% | Verdict |
+|--------|----------|----------|------|---------|
+| New_S10Granite_1-83Hz | In-distribution | low | <5% |  In-distribution |
+| New_S10Granite_5-10Hz | In-distribution | low | <5% |  In-distribution |
+| New_Holstein_Sandstone_1-83Hz | In-distribution | low | <5% |  In-distribution |
+| New_Holstein_Sandstone_5-10Hz | In-distribution | low | <5% |  In-distribution |
+| New_Leitendorf_Limestone_1-83Hz | In-distribution | low | <5% |  In-distribution |
+| New_Leitendorf_Limestone_5-10Hz | In-distribution | low | <5% |  In-distribution |
+
+**Key findings:**
+
+- All 6 new sample groups confirmed in-distribution — the autoencoder recognises
+  them as mineralogically consistent with the training classes
+- SPEC-01 visually confirms: fluorescence hump preserved in new granite at both
+  speeds, quartz peak positions unchanged in sandstone, calcite peaks unchanged
+  in limestone. Old and new median spectra overlap almost perfectly
+- Together with notebook 15, this constitutes the definitive cross-session
+  robustness validation: the autoencoder confirms mineralogical consistency at
+  the spectral level, and the ResNet confirms classification accuracy at 93–99%
+  
+**Input (training):** `rock_csvs/`
+**Input (test):** `~/new_profiles_csv/`
+
+**Output folder:** `results_ood_autoencoder_new_samples/`
+
+---
+
+### 17. `cnn_1d_new_samples.ipynb`
+**1D CNN trained on original data, inference on the new samples of the original rocks**.
+Trains the same 1D CNN architecture as notebook 1 on `rock_csvs/` only.
+Tests on `~/new_profiles_csv/` — the new spectral profiles.
+
+**New test data used:** `~/new_profiles_csv/` (400 profiles × 6 CSV files)
+
+**Inference results vs ResNet-18 (notebook 15 @ 100% fraction):**
+| Class | 1D CNN 1.83Hz | 1D CNN 5.10Hz | ResNet 1.83Hz | ResNet 5.10Hz |
+|-------|--------------|--------------|--------------|--------------|
+| S10Granite | 93.0% | 93.8% | ~94% | ~93% |
+| Holstein Sandstone | **72.5%** | **75.2%** | ~96% | ~98% |
+| Leitendorf Limestone | 93.8% | 92.0% | ~99% | ~99% |
+
+**Key findings:**
+- Granite and Limestone generalise comparably between 1D CNN and ResNet
+- Sandstone drops to 72–75% on new samples with the 1D CNN vs 96–98% with ResNet
+- The 1D CNN already showed a weak Sandstone/Limestone boundary
+  on the original data (18–25 confusions per 1,600 validation samples). When
+  acquisition conditions vary slightly between sessions, more sandstone spectra
+  cross that boundary. ResNet's 2D image representation captures richer features
+  that make its Sandstone/Limestone boundary more robust to inter-session variability
+
+**Input (training):** `rock_csvs/`
+**Input (test):** `~/new_profiles_csv/`
+
+**Output folder:** `results_1d_cnn_new_samples/`
+
+---
+
+### 18. `rock_classifier_balanced_multisource.ipynb`
+**Balanced multi-source ResNet-18 with per-source capping**
+Addresses the class imbalance problem in notebook 11. The original multisource
+model failed because the 3 original classes had ~8,000 images each while new
+rock sources had 20–1,000 and the model ignored minority sources entirely.
+Fix: cap every source at a defined limit so each class contributes exactly
+1,000 images per speed model. Separate models trained per belt speed (same
+structure as notebook 7).
+| Speed | Class | Sources | Cap/source | Class total |
+|-------|-------|---------|-----------|-------------|
+| 1.83Hz | S10Granite | orig + Gneis + GranPhil_1 + GranPhil_2 | 250 | 1,000 |
+| 1.83Hz | Holstein Sandstone | orig only (SstNew: 21 imgs, excluded) | 1,000 | 1,000 |
+| 1.83Hz | Leitendorf Limestone | orig + CalcSil (Lst_Rax: <30 imgs, excluded) | 500 | 1,000 |
+| 5.10Hz | S10Granite | orig only | 1,000 | 1,000 |
+| 5.10Hz | Holstein Sandstone | orig only | 1,000 | 1,000 |
+| 5.10Hz | Leitendorf Limestone | orig + CalcSil | 500 | 1,000 |
+
+**Inference results on new May 2026 samples vs original ResNet:**
+| Class | Balanced MultiSource | Original ResNet | Delta |
+|-------|---------------------|-----------------|-------|
+| S10Granite | 81–87% | 93–94% | -7 to -12% |
+| Holstein Sandstone | 93–99% | 96–98% | ≈ same |
+| Leitendorf Limestone | 80–91% | 99% | -9 to -19% |
+
+**Key findings:**
+- Sandstone unchanged: only clean original data used, no contaminated sources added
+- Granite and Limestone both degraded significantly vs the single-source ResNet
+- Root cause: Gneis and GranPhil are mineralogically different granite types
+  (no fluorescence hump). Including them broadens and blurs the Granite decision
+  boundary. CalcSil is contaminated limestone so including it blurs the Limestone
+  boundary
+- **Counterintuitive scientific lesson:** multi-source training only helps when
+  additional sources are spectrally homogeneous with the target class. Adding
+  mineralogically inconsistent sources hurts performance. The original
+  single-source ResNet has tighter, cleaner boundaries precisely because all
+  training data was spectrally consistent
+  
+**Input:** `~/Desktop/george/rocks_spectral_224/` + `~/for_test_data_spectral_224/`
+**Test:** `~/20260511_New_Granite-Limestone-Sandstone_224/`
+
+**Output folder:** `results_balanced_multisource/`
+
+---
+
+### 19. `cross_speed_generalisation.ipynb`
+**Cross-speed generalisation study — new May 2026 samples only**
+Supervised experiment. Two symmetric experiments using only the new May 2026 data:
+| Experiment | Train | Test |
+|------------|-------|------|
+| **A** | Fractions of new 5.10 Hz data | New 1.83 Hz data (full, fixed) |
+| **B** | Fractions of new 1.83 Hz data | New 5.10 Hz data (full, fixed) |
+8 fractions (20%–100%) × 3 seeds × 2 experiments = 48 total training runs.
+400 images per class per speed available. Val split taken from training speed only;
+test set is always the other speed.
+
+**New data used:** `~/20260511_New_Granite-Limestone-Sandstone_224/` (both speed subfolders)
+
+**Results (mean across 3 seeds):**
+| Fraction | Exp A Overall | Exp B Overall |
+|----------|--------------|--------------|
+| 20% (~80 imgs/class) | ~94% | ~94% |
+| 50% | ~96% | ~95% |
+| 100% (~320 imgs/class) | ~96% | ~97% |
+**Per-class accuracy at 20% fraction:**
+| Class | Exp A (5.10Hz→1.83Hz) | Exp B (1.83Hz→5.10Hz) |
+|-------|----------------------|----------------------|
+| S10Granite | 97% | 94% |
+| Holstein Sandstone | 97% | 97% |
+| Leitendorf Limestone | 88% | 91% |
+
+**Key findings:**
+- Both experiments exceed 90% overall at 20% training data and remain flat:
+  cross-speed generalisation is essentially free and requires very little data
+- Experiments A and B are nearly symmetric: the speed direction does not matter.
+  Training on fast belt and testing on slow gives the same result as the reverse.
+  The spectral shape (peak positions, fluorescence hump profile) is speed-invariant:
+  only signal-to-noise ratio changes between belt speeds
+- Granite generalises best across speeds (97–100%): the broad fluorescence hump
+  is insensitive to integration time changes caused by belt speed variation
+- Limestone shows the steepest learning curve (88%→96% from 20% to 100%): sharp
+  calcite peaks are more sensitive to acquisition speed than the broad hump,
+  requiring slightly more data to learn the speed-invariant pattern
+- **Deployment implication:** a model trained at one belt speed can be deployed
+  at a different belt speed without retraining. With only 80 labelled images per
+  class (~240 total training images), cross-speed accuracy already exceeds 90%
+  
+**Input:** `~/20260511_New_Granite-Limestone-Sandstone_224/` (both speed subfolders)
+
+**Output folder:** `results_cross_speed/`
+
+---
+
+## Data Paths (change accordingly in each model)
+
 | Data type | Path |
 |-----------|------|
 | Raw TXT files (original training) | `rocks_txts/` |
 | CSV profiles (original training) | `rock_csvs/` |
-| Resized JPG images 224x224 (training) | `rocks_spectral_224/` |
-| Resized JPG images 224x224 (new test) | `for_test_data_spectral_224/` |
-| Raw PROFILES TXT (new rock folders) | `profiles/` |
-| CSV profiles (new rock folders) | `profiles_csv/` |
+| Resized JPG images 224×224 (original training) | `rocks_spectral_224/` |
+| Resized JPG images 224×224 (new-rock test) | `for_test_data_spectral_224/` |
+| Raw PROFILES TXT (new-rock folders) | `profiles/` |
+| CSV profiles (new-rock folders) | `profiles_csv/` |
+| Raw PROFILES TXT (new samples on original rocks) | `new_profiles_txts/` |
+| CSV profiles (new samples on original rocks) | `~/new_profiles_csv/` |
+| Resized JPG images 224×224 (new samples on original rocks) | `~/20260511_New_Granite-Limestone-Sandstone_224/` |
