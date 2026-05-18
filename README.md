@@ -316,9 +316,8 @@ subsequent work (multi-source training, OOD detection, 1D approaches).
 **Combined: training + evaluation + OOD detection + inference on new rocks**
  
 Combines all phases into one notebook. Retrains ResNet-18 on the original 3 classes,
-then introduces temperature scaling calibration and energy-score OOD detection
-. Runs inference on all 9 new rock folders from
-`for_test_data_spectral_224/`. Also includes Grad-CAM on new rock samples and
+then introduces temperature scaling calibration and energy-score OOD detection.
+Runs inference on all 9 new rock folders. Also includes Grad-CAM on new rock samples and
 a t-SNE of training + new rock features combined.
  
 **New test data used:** `for_test_data_spectral_224/` (all 9 new rock folders,
@@ -512,7 +511,7 @@ Gran_Phil, CalcSil, and SstNew?
 **New test data used:** `for_test_data_spectral_224/` (same 9 new rock folders as notebooks 9–13)
 
 **Key findings:**
-- Gran_Phil accuracy = **0% at all fractions** — more original data never helps
+- Gran_Phil accuracy = 0% at all fractions: more original data never helps
   because the failure is spectral identity mismatch, not data quantity. Gran_Phil
   is a quartz-dominated granite with no fluorescence hump. The model learned
   "Granite = fluorescence hump" from S10Granite and no amount of S10Granite data
@@ -571,7 +570,7 @@ training runs. Shading shows ±1 std across seeds.
 **1D MLP autoencoder: trained on original data,tested on the new samples of the original rocks**
 Same architecture as notebook 12 (1060→512→128→32→128→512→1060, LATENT_DIM=32,
 EPOCHS=80). Trained on original `rock_csvs/` only. Inference on `~/new_profiles_csv/`
-— the 1060-point spectral profiles extracted from the new acquisitions.
+the 1060-point spectral profiles extracted from the new acquisitions.
 Includes SPEC-01: a 3×4 spectral comparison plot showing original vs new samples
 at both belt speeds for all 3 classes, with individual spectra and median overlay.
 
@@ -652,7 +651,7 @@ structure as notebook 7).
 | 5.10Hz | Holstein Sandstone | orig only | 1,000 | 1,000 |
 | 5.10Hz | Leitendorf Limestone | orig + CalcSil | 500 | 1,000 |
 
-**Inference results on new May 2026 samples vs original ResNet:**
+**Inference results on new samples vs original ResNet:**
 | Class | Balanced MultiSource | Original ResNet | Delta |
 |-------|---------------------|-----------------|-------|
 | S10Granite | 81–87% | 93–94% | -7 to -12% |
@@ -666,9 +665,8 @@ structure as notebook 7).
   (no fluorescence hump). Including them broadens and blurs the Granite decision
   boundary. CalcSil is contaminated limestone so including it blurs the Limestone
   boundary
-- **Counterintuitive scientific lesson:** multi-source training only helps when
-  additional sources are spectrally homogeneous with the target class. Adding
-  mineralogically inconsistent sources hurts performance. The original
+- Multi-source training only helps when additional sources are spectrally homogeneous with the target class.
+  Adding mineralogically inconsistent sources hurts performance. The original
   single-source ResNet has tighter, cleaner boundaries precisely because all
   training data was spectrally consistent
   
@@ -680,7 +678,7 @@ structure as notebook 7).
 ---
 
 ### 19. `cross_speed_generalisation.ipynb`
-**Cross-speed generalisation study — new May 2026 samples only**
+**Cross-speed generalisation study — new samples only**
 Supervised experiment. Two symmetric experiments using only the new May 2026 data:
 | Experiment | Train | Test |
 |------------|-------|------|
