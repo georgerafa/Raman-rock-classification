@@ -1,0 +1,90 @@
+RESULTS INDEX -- rock_classifier_combined
+================================================================================
+ARCH=resnet18  USE_STRONG_AUG=True  FREEZE_BACKBONE=False
+EPOCHS=20  LR=0.0001  WD=0.0001  TEST_SPLIT=0.3
+OOD_FPR=0.05
+T_183=1.3889  T_510=1.3221
+threshold_183=-4.9619  threshold_510=-4.1396
+================================================================================
+
+PHASE 1 -- Train & Save
+--------------------------------------------------------------------------------
+  TR-00_sample_images__1-83Hz.png
+    3 sample spectral images per rock class at 1.83 Hz
+
+  TR-00_sample_images__5-10Hz.png
+    3 sample spectral images per rock class at 5.10 Hz
+
+  TR-01_training_history__loss_and_accuracy__both_speeds.png
+    Epoch-level training and validation loss + accuracy for both belt speeds. Settings: strong_aug=True, freeze_backbone=False.
+
+  INF-05_tsne__training_and_new_rocks.png
+    t-SNE 2D projection of avgpool features for training rocks + new rock folders. Reveals why each new rock is classified as it is and whether features overlap.
+
+
+PHASE 2 -- Evaluation on Known Rocks
+--------------------------------------------------------------------------------
+  EV-01_confusion_matrices__known_rocks__both_speeds.png
+    Raw and normalised confusion matrices on the held-out validation split for both belt speeds. Shows classification accuracy per rock class.
+
+  EV-02_classification_report__1-83Hz.txt
+    Classification report (1-83Hz) on known-rock validation split
+
+  EV-02_classification_report__5-10Hz.txt
+    Classification report (5-10Hz) on known-rock validation split
+
+  EV-03_perclass_metrics__known_rocks__both_speeds.png
+    Per-class precision, recall, and F1 score for both belt speeds on the held-out validation split.
+
+  EV-04_tta_vs_baseline__known_rocks__both_speeds.png
+    Baseline vs TTA accuracy on held-out validation set. TTA uses 5 augmented versions averaged per image.
+
+  evaluation_known_rocks.csv
+    Per-class precision/recall/F1/support on known-rock validation split
+
+
+PHASE 3 -- OOD Calibration
+--------------------------------------------------------------------------------
+  OOD-01_energy_distribution__known_rocks_calibration.png
+    Energy score histogram on known-rock validation data with OOD threshold. New rocks with energy above threshold are flagged as Unknown.
+
+  OOD-02_energy_score_comparison__known_vs_new_rocks.png
+    Box plots of energy scores: known rocks (calibration) vs each new folder. Groups above threshold should be flagged as Unknown.
+
+
+PHASE 4+5 -- Inference & t-SNE
+--------------------------------------------------------------------------------
+  INF-01_prediction_distribution__new_rocks__with_unknown.png
+    Stacked bar chart: prediction distribution per new rock folder including Unknown (OOD) category. Expected class in italic below each bar.
+
+  INF-02_confidence_ood_heatmap__new_rocks.png
+    Heatmap: mean calibrated confidence and % OOD-flagged images per new rock folder.
+
+  INF-03_confidence_histograms__new_rocks.png
+    Per-folder confidence histograms: classified vs OOD-flagged images.
+
+  INF-04_mean_softmax_probabilities__new_rocks.png
+    Mean calibrated softmax probability per trained class per new rock folder.
+
+
+PHASE 6 -- Grad-CAM
+--------------------------------------------------------------------------------
+  GRADCAM-01_gradcam_samples__all_new_folders.png
+    Grad-CAM overlays for one representative image per new rock folder. Shows which spectral image regions drove each prediction.
+
+
+PHASE 7 -- Final Comparison
+--------------------------------------------------------------------------------
+  CMP-01_expected_vs_predicted__table_and_summary.png
+    Left: per-folder comparison table (expected vs predicted, OOD%, confidence, verdict). Right: outcome counts (Correct / Correctly Unknown / Incorrect / Missed OOD / False OOD).
+
+
+ROOT FILES (CSVs + models + index)
+--------------------------------------------------------------------------------
+  predictions_new_rocks_all_images.csv
+    Per-image: folder, speed, filename, predicted class, confidence, energy, OOD flag, full probability vector
+
+  predictions_new_rocks_per_folder.csv
+    Per-folder: expected class, predicted class, OOD stats, prediction distribution, mean probabilities, energy score, verdict
+
+

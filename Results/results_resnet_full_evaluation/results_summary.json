@@ -1,0 +1,25 @@
+{
+  "1.83Hz": {
+    "best_acc": 0.9958881578947368,
+    "config": {
+      "batch_size": 64,
+      "lr": 0.0001,
+      "epochs": 20,
+      "weight_decay": 0.0001
+    }
+  },
+  "5.10Hz": {
+    "best_acc": 0.9956896551724138,
+    "config": {
+      "batch_size": 64,
+      "lr": 0.0001,
+      "epochs": 20,
+      "weight_decay": 0.0001
+    }
+  },
+  "class_names": [
+    "S10Granite",
+    "Holstein_Sandstone",
+    "Leitendorf_Limestone"
+  ]
+}

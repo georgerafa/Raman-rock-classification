@@ -1,0 +1,69 @@
+RESULTS INDEX -- rock_classifier_multisource
+================================================================================
+ARCH=resnet18  USE_STRONG_AUG=True  FREEZE_BACKBONE=False
+EPOCHS=20  LR=0.0001  TEST_SPLIT=0.25  OOD_FPR=0.05
+T_183=1.2533  T_510=1.4371
+threshold_183=-3.3507  threshold_510=-3.9770
+Dunite OOD: 17/500 flagged Unknown
+================================================================================
+
+PHASE 1 -- Train & Save
+--------------------------------------------------------------------------------
+  TR-00_dataset_composition__multisource.png
+    Training dataset composition by source folder for each class. Shows original vs new sources and image counts per class.
+
+  INF-02_tsne__multisource_training_plus_dunite.png
+    t-SNE projection of multi-source training features + Dunite (OOD). Broad training clusters show learned spectral diversity. Dunite should be isolated from all three clusters.
+
+
+PHASE 2 -- Known Rock Evaluation
+--------------------------------------------------------------------------------
+  EV-01_confusion_matrices__multisource.png
+    Raw and normalised confusion matrices for multi-source model validation split.
+
+  EV-02_classification_report__1-83Hz.txt
+    Classification report 1-83Hz
+
+  EV-02_classification_report__5-10Hz.txt
+    Classification report 5-10Hz
+
+  EV-03_perclass_metrics__multisource.png
+    Per-class precision, recall, F1 for multi-source model validation split.
+
+  evaluation_known_rocks_multisource.csv
+    Per-class metrics on multi-source validation split
+
+
+PHASE 3 -- OOD Calibration
+--------------------------------------------------------------------------------
+  OOD-01_energy_distribution__multisource_calibration.png
+    Energy score histogram on multi-source known-rock validation data. Broader distribution because multiple quarries per class are now represented.
+
+
+PHASE 4+5 -- Dunite OOD Test & t-SNE
+--------------------------------------------------------------------------------
+  INF-01_dunite_ood_test__confidence_and_energy.png
+    Dunite OOD test: confidence histogram (left) and energy score comparison vs known rocks (right). Red bars/region = flagged as Unknown.
+
+
+PHASE 6 -- Grad-CAM
+--------------------------------------------------------------------------------
+  GRADCAM-01_gradcam__multisource_classes_and_dunite.png
+    Grad-CAM for one sample per class and one Dunite image. Shows which spectral regions drive predictions in the multi-source model.
+
+
+PHASE 7 -- Summary
+--------------------------------------------------------------------------------
+  CMP-01_multisource_summary__accuracy_and_ood.png
+    Multi-source model summary: known-rock validation accuracy and Dunite OOD verdict.
+
+  CMP-02_before_after__single_vs_multisource.png
+    Before/after comparison table: single-source vs multi-source model per folder.
+
+
+ROOT FILES
+--------------------------------------------------------------------------------
+  predictions_dunite_ood_test.csv
+    Dunite OOD test predictions per image
+
+

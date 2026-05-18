@@ -1,0 +1,11 @@
+Config: {'batch_size': 64, 'lr': 5e-05, 'epochs': 20, 'weight_decay': 0.0}
+
+                      precision    recall  f1-score   support
+
+          S10Granite     1.0000    0.9992    0.9996      1201
+  Holstein_Sandstone     0.9917    0.9967    0.9942      1200
+Leitendorf_Limestone     0.9959    0.9918    0.9939      1223
+
+            accuracy                         0.9959      3624
+           macro avg     0.9959    0.9959    0.9959      3624
+        weighted avg     0.9959    0.9959    0.9959      3624

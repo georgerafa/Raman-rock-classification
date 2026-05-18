@@ -1,0 +1,43 @@
+RESULTS INDEX -- ood_autoencoder_1d
+======================================================================
+SPECTRUM_LEN=1060  LATENT_DIM=32
+EPOCHS=120  LR=0.001  OOD_FPR=0.05
+OOD threshold: 0.01190767
+======================================================================
+
+PHASE 1 -- Training
+----------------------------------------------------------------------
+  TR-00_sample_spectra__known_and_new_rocks.png
+    Representative normalized spectra for known training classes and key new rock folders. Visual inspection of spectral shape differences that drive OOD detection.
+
+  TR-01_autoencoder_training_history.png
+    MSE reconstruction loss per epoch for the 1D spectral autoencoder. Trained only on known-rock classes.
+
+
+PHASE 2-4 -- OOD Detection
+----------------------------------------------------------------------
+  OOD-01_reconstruction_error__known_rocks_per_class.png
+    Reconstruction error distribution per known rock class on validation set. Shows the in-distribution error range used to calibrate the OOD threshold.
+
+  OOD-02_reconstruction_error_comparison__all_groups.png
+    Box plot: reconstruction error for known rocks vs all new rock folders. Dunite should be clearly above the OOD threshold; other new rocks below it.
+
+  OOD-03_error_histograms__per_new_folder.png
+    Per-folder reconstruction error histograms. Blue = classified as in-distribution, Red = flagged as Unknown.
+
+  OOD-04_roc_curve__dunite_vs_known_rocks.png
+    ROC curve for 1D autoencoder OOD detection: known rocks vs Dunite. AUC measures how well reconstruction error separates Dunite from all known rocks.
+
+  ood_results_1d_autoencoder.csv
+    Per-folder OOD results: mean error, % flagged, verdict
+
+
+PHASE 3 -- Spectrum Visualisation
+----------------------------------------------------------------------
+  VIZ-01_reconstruction_comparison__known_rocks_vs_dunite.png
+    Autoencoder reconstruction overlaid on original spectrum for known rocks and Dunite. Orange region = reconstruction error. Dunite shows high error in its olivine peak region.
+
+  VIZ-02_dunite_best_median_worst_reconstruction.png
+    Dunite spectra with lowest, median, and highest reconstruction error. Shows that even the easiest Dunite spectrum is near or above the OOD threshold.
+
+

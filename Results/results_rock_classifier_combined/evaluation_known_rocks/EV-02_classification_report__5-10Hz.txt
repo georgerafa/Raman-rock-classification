@@ -1,0 +1,11 @@
+Settings: ARCH=resnet18 USE_STRONG_AUG=True FREEZE_BACKBONE=False
+
+                      precision    recall  f1-score   support
+
+          S10Granite     0.9992    0.9936    0.9964      1246
+  Holstein_Sandstone     0.9942    0.9958    0.9950      1200
+Leitendorf_Limestone     0.9934    0.9975    0.9955      1211
+
+            accuracy                         0.9956      3657
+           macro avg     0.9956    0.9956    0.9956      3657
+        weighted avg     0.9956    0.9956    0.9956      3657

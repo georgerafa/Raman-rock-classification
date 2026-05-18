@@ -1,0 +1,80 @@
+RESULTS INDEX -- split_fraction_study
+================================================================================
+EPOCHS=15  LR=0.0001  WEIGHT_DECAY=0.0001  BATCH=64
+Data fractions tested : [0.2, 0.4, 0.6, 0.8, 1]
+Test-split sizes tested: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+Total training runs   : 90
+================================================================================
+
+BLOCK 1 -- Overall Accuracy Sweep
+--------------------------------------------------------------------------------
+  B1-01_overall_accuracy_heatmap__datafrac_vs_testsplit.png
+    WHAT IT SHOWS: Block 1 | Heatmap of overall test accuracy (%) for every (data-fraction x test-split) combo -- both belt speeds side by side
+
+  B1-02_overall_accuracy_vs_testsplit__one_line_per_datafraction.png
+    WHAT IT SHOWS: Block 1 | Accuracy curves vs. test-split ratio -- one line per data-fraction level for both datasets
+
+  B1-03_overall_accuracy_vs_datafraction__one_line_per_testsplit.png
+    WHAT IT SHOWS: Block 1 | Accuracy curves vs. data fraction -- one line per test-split size for both datasets
+
+  B1-04_training_history__best_and_worst_config_per_dataset.png
+    WHAT IT SHOWS: Block 1 | Epoch-by-epoch accuracy curves for the best and worst (data-fraction, test-split) config on each dataset
+
+  B1-05_confusion_matrix__best_config_per_dataset.png
+    WHAT IT SHOWS: Block 1 | Confusion matrix (raw counts) for the best (data-fraction, test-split) config on each dataset
+
+  B1-06_confusion_matrix__worst_config_per_dataset.png
+    WHAT IT SHOWS: Block 1 | Confusion matrix (raw counts) for the worst (data-fraction, test-split) config on each dataset
+
+  B1-07_confusion_matrix_grid__fixed_testsplit30pct__varying_datafrac__183Hz.png
+    WHAT IT SHOWS: Block 1 | CM grid: test-split fixed at 30%, data fraction varies 20% to 100%  [1.83 Hz]
+
+  B1-07_confusion_matrix_grid__fixed_testsplit30pct__varying_datafrac__510Hz.png
+    WHAT IT SHOWS: Block 1 | CM grid: test-split fixed at 30%, data fraction varies 20% to 100%  [5.10 Hz]
+
+
+BLOCK 2 -- Per-Rock Recall Analysis
+--------------------------------------------------------------------------------
+  B2-01_perrock_recall_heatmaps__all_rocks_both_datasets.png
+    WHAT IT SHOWS: Block 2 | Per-rock recall (%) heatmaps for all 3 rocks across the full data-fraction x test-split grid -- both datasets
+
+  B2-02_perrock_recall_vs_testsplit__one_line_per_datafraction.png
+    WHAT IT SHOWS: Block 2 | Per-rock recall curves vs. test-split ratio -- one line per data-fraction level (all rocks, both datasets)
+
+  B2-03_perrock_recall_vs_datafraction__one_line_per_testsplit.png
+    WHAT IT SHOWS: Block 2 | Per-rock recall curves vs. data fraction -- one line per test-split size (all rocks, both datasets)
+
+  B2-04_normalised_CM_with_perrock_recall__best_config_per_dataset.png
+    WHAT IT SHOWS: Block 2 | Row-normalised CM (count + %) with per-rock recall side panel -- best config on each dataset
+
+  B2-05_radar_perrock_recall__best_median_worst_config.png
+    WHAT IT SHOWS: Block 2 | Radar chart comparing per-rock recall for best, median, and worst configurations on each dataset
+
+
+FINAL COMPARISON
+--------------------------------------------------------------------------------
+  FIN-01_full_heatmaps__overall_accuracy_and_perrock_recall__183Hz.png
+    WHAT IT SHOWS: Final | Overall accuracy + per-rock recall heatmaps combined in one figure  [1.83 Hz]
+
+  FIN-01_full_heatmaps__overall_accuracy_and_perrock_recall__510Hz.png
+    WHAT IT SHOWS: Final | Overall accuracy + per-rock recall heatmaps combined in one figure  [5.10 Hz]
+
+  FIN-02_accuracy_difference_heatmap__1.83Hz_minus_5.10Hz.png
+    WHAT IT SHOWS: Final | Accuracy difference (pp) heatmap: 1.83 Hz minus 5.10 Hz across the full sweep grid
+
+  FIN-03_summary_bars__accuracy_range_and_mean_perrock_recall.png
+    WHAT IT SHOWS: Final | Summary bars: overall accuracy range (max/mean/min) and mean per-rock recall across the full sweep
+
+  FIN-04_normalised_CM__best_and_worst_configs_both_datasets.png
+    WHAT IT SHOWS: Final | 2x2 normalised CMs (count + row%): best vs. worst config on 1.83 Hz and 5.10 Hz
+
+  FIN-05_perrock_recall_difference__1.83Hz_minus_5.10Hz.png
+    WHAT IT SHOWS: Final | Per-rock recall difference (pp) between 1.83 Hz and 5.10 Hz -- one panel per rock, full sweep grid
+
+
+ROOT FILES (CSV + this index)
+--------------------------------------------------------------------------------
+  results_all_runs.csv
+    WHAT IT SHOWS: All numerical results: one row per run -- columns = dataset, data-fraction, test-split, n_train, n_test, accuracy, per-rock recall and F1
+
+

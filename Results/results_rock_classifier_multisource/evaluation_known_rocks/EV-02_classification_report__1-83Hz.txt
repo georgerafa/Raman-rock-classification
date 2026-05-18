@@ -1,0 +1,9 @@
+                      precision    recall  f1-score   support
+
+          S10Granite     0.9900    0.9887    0.9893      1499
+  Holstein_Sandstone     0.9746    0.9562    0.9653      1005
+Leitendorf_Limestone     0.9577    0.9734    0.9655      1280
+
+            accuracy                         0.9749      3784
+           macro avg     0.9741    0.9728    0.9734      3784
+        weighted avg     0.9750    0.9749    0.9749      3784

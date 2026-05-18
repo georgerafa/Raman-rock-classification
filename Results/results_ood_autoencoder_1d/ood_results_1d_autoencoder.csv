@@ -1,0 +1,11 @@
+folder,expected_class,n_spectra,mean_mse_error,pct_ood_flagged,ood_threshold,verdict
+Known rocks (val),Known,9731,0.00374767,5.0,0.01190767,Calibration
+Dunite-Ecologite_2Rocks_1-83Hz,Unknown,1000,0.0049904,3.4,0.01190767,OOD missed
+Gneis_1-83Hz,S10Granite,1072,0.00373176,8.21,0.01190767,In-distribution
+Granite_3SamplesPhilipp_1-83Hz_1,S10Granite,1992,0.00156227,0.1,0.01190767,In-distribution
+Granite_3SamplesPhilipp_1-83Hz_2,S10Granite,1180,0.00198318,0.0,0.01190767,In-distribution
+Limestone_CalcsilicaContaminated_U9_U3_1-83Hz,Leitendorf_Limestone,2000,0.00595497,9.7,0.01190767,In-distribution
+Limestone_CalcsilicaContaminated_U9_U3_5-10Hz,Leitendorf_Limestone,2000,0.00624489,11.4,0.01190767,In-distribution
+Limestone_Rax_1-83Hz_1,Leitendorf_Limestone,60,0.00362865,0.0,0.01190767,In-distribution
+Limestone_Rax_1-83Hz_2,Leitendorf_Limestone,40,0.00508798,10.0,0.01190767,In-distribution
+SandstoneNew_1-83Hz,Holstein_Sandstone,10,0.00150403,0.0,0.01190767,In-distribution

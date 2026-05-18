@@ -1,0 +1,10 @@
+folder,expected_class,belt_speed,n_images,top_predicted_class,mean_confidence_pct,n_ood,pct_ood,pct_Granite,pct_Sandstone,pct_Limestone,pct_Unknown,mean_prob_Granite,mean_prob_Sandstone,mean_prob_Limestone,mean_energy,verdict
+Dunite-Ecologite_2Rocks_1-83Hz,Unknown,1.83 Hz,500,Leitendorf_Limestone,93.82,146,29.2,0.6,0.2,70.0,29.2,10.11,2.36,87.53,-6.4304,Missed OOD
+Gneis_1-83Hz,S10Granite,1.83 Hz,500,Unknown,93.53,294,58.8,27.0,0.0,14.2,58.8,72.7,0.67,26.63,-5.2095,False OOD
+Granite_3SamplesPhilipp_1-83Hz_1,S10Granite,1.83 Hz,1000,Leitendorf_Limestone,99.57,18,1.8,0.0,0.0,98.2,1.8,0.01,0.63,99.36,-9.0313,Incorrect
+Granite_3SamplesPhilipp_1-83Hz_2,S10Granite,1.83 Hz,490,Leitendorf_Limestone,99.37,19,3.88,0.0,0.2,95.92,3.88,0.02,1.49,98.48,-8.743,Incorrect
+Limestone_CalcsilicaContaminated_U9_U3_1-83Hz,Leitendorf_Limestone,1.83 Hz,1000,Holstein_Sandstone,96.98,190,19.0,1.9,62.4,16.7,19.0,5.88,70.28,23.84,-6.5561,Incorrect
+Limestone_CalcsilicaContaminated_U9_U3_5-10Hz,Leitendorf_Limestone,5.10 Hz,1000,Holstein_Sandstone,92.71,370,37.0,0.6,46.7,15.7,37.0,5.59,66.01,28.4,-4.7472,Incorrect
+Limestone_Rax_1-83Hz_1,Leitendorf_Limestone,1.83 Hz,25,Leitendorf_Limestone,99.29,1,4.0,0.0,0.0,96.0,4.0,0.67,0.04,99.29,-8.0099,Correct
+Limestone_Rax_1-83Hz_2,Leitendorf_Limestone,1.83 Hz,20,Leitendorf_Limestone,97.14,2,10.0,0.0,0.0,90.0,10.0,0.38,2.87,96.75,-7.4095,Correct
+SandstoneNew_1-83Hz,Holstein_Sandstone,1.83 Hz,21,Unknown,80.7,18,85.71,0.0,4.76,9.52,85.71,0.43,35.98,63.59,-3.7868,False OOD

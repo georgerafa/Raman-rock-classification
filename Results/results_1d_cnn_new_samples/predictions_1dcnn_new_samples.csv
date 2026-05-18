@@ -1,0 +1,7 @@
+folder,expected_class,top_predicted_class,accuracy_pct,mean_confidence_pct,n_spectra,pct_Granite,pct_Sandstone,pct_Limestone,verdict
+New_S10Granite_1-83Hz,S10Granite,S10Granite,93.0,99.33,800,93.0,2.75,2.0,Correct
+New_S10Granite_5-10Hz,S10Granite,S10Granite,93.75,98.82,800,93.75,1.25,2.75,Correct
+New_Holstein_Sandstone_1-83Hz,Holstein_Sandstone,Holstein_Sandstone,72.5,97.26,800,1.75,72.5,5.75,Partial
+New_Holstein_Sandstone_5-10Hz,Holstein_Sandstone,Holstein_Sandstone,75.25,97.85,800,0.0,75.25,6.0,Partial
+New_Leitendorf_Limestone_1-83Hz,Leitendorf_Limestone,Leitendorf_Limestone,93.75,98.96,800,0.75,3.75,93.75,Correct
+New_Leitendorf_Limestone_5-10Hz,Leitendorf_Limestone,Leitendorf_Limestone,92.0,98.89,800,0.0,4.5,92.0,Correct

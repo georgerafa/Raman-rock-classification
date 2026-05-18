@@ -1,0 +1,27 @@
+RESULTS INDEX — rock_classifier_fraction_newrock_test
+================================================================================
+ARCH=resnet18  EPOCHS=20  LR=0.0001
+FRACTIONS=[20, 30, 40, 50, 60, 70, 80, 100]%
+SEEDS=[7, 42, 123]  (mean±std per cell)
+Total training runs: 24
+
+FILES
+--------------------------------------------------------------------------------
+  DA-01_data_overview.png
+    Original vs new rock data overview
+
+  fraction_accuracy_all_folders.csv
+    Per-folder accuracy at every fraction × seed
+
+  RES-01_accuracy_vs_fraction.png
+    Main result: new rock accuracy vs training fraction
+
+  RES-02_heatmap_fraction_folder.png
+    Accuracy heatmap: fraction × new rock folder
+
+  RES-03_per_class_accuracy.png
+    Per-class accuracy vs fraction for new rock folders
+
+  RES-04_confidence_by_folder.png
+    Mean confidence of top prediction at 50% and 100% training fraction
+

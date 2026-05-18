@@ -1,0 +1,13 @@
+RESULTS INDEX — balanced_multisource
+===========================================================================
+EPOCHS=20  LR=0.0001  WD=0.0001  BATCH=64
+
+  EV-01_confusion_matrices.png
+    Validation confusion matrices
+
+  INF-02_model_comparison.png
+    Model comparison heatmap
+
+  OOD-01_dunite.png
+    Dunite OOD prediction distribution
+

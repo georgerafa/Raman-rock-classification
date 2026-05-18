@@ -1,0 +1,27 @@
+RESULTS INDEX — ood_autoencoder_new_samples
+================================================================================
+Train: original rock_csvs/ (both speeds)
+Test:  new_profiles_csv/ (May 2026 new samples)
+LATENT_DIM=32  EPOCHS=80  LR=0.001
+OOD threshold: 0.012573
+
+FILES
+--------------------------------------------------------------------------------
+  SPEC-01_original_vs_new_both_speeds.png
+    Spectral comparison: original vs new samples, both belt speeds, all 3 classes
+
+  TR-01_training_history.png
+    Autoencoder training history
+
+  OOD-01_known_rock_errors.png
+    Reconstruction error distribution for known rocks
+
+  OOD-02_original_vs_new_errors.png
+    Reconstruction error box plot: original rocks vs new samples
+
+  OOD-03_new_sample_error_histograms.png
+    Per-group reconstruction error histograms for new samples
+
+  VIZ-01_reconstruction_quality.png
+    Autoencoder reconstruction: original vs new samples per class
+

@@ -1,0 +1,10 @@
+folder,expected_class,top_predicted_class,mean_confidence_pct,n_spectra,n_ood,pct_ood,pct_Granite,pct_Sandstone,pct_Limestone,pct_Unknown,verdict
+Dunite-Ecologite_2Rocks_1-83Hz,Unknown,Leitendorf_Limestone,96.64,1000,34,3.4,20.0,6.4,70.2,3.4,❌ Missed OOD
+Gneis_1-83Hz,S10Granite,S10Granite,98.49,1072,88,8.21,69.78,0.93,21.08,8.21,✅ Correct
+Granite_3SamplesPhilipp_1-83Hz_1,S10Granite,Leitendorf_Limestone,99.6,1992,2,0.1,1.51,0.8,97.59,0.1,❌ Incorrect
+Granite_3SamplesPhilipp_1-83Hz_2,S10Granite,Leitendorf_Limestone,99.27,1180,0,0.0,0.34,1.02,98.64,0.0,❌ Incorrect
+Limestone_CalcsilicaContaminated_U9_U3_1-83Hz,Leitendorf_Limestone,Holstein_Sandstone,97.08,2000,194,9.7,6.1,57.1,27.1,9.7,❌ Incorrect
+Limestone_CalcsilicaContaminated_U9_U3_5-10Hz,Leitendorf_Limestone,Holstein_Sandstone,97.24,2000,228,11.4,5.9,56.7,26.0,11.4,❌ Incorrect
+Limestone_Rax_1-83Hz_1,Leitendorf_Limestone,Leitendorf_Limestone,99.55,60,0,0.0,3.33,0.0,96.67,0.0,✅ Correct
+Limestone_Rax_1-83Hz_2,Leitendorf_Limestone,Leitendorf_Limestone,95.87,40,4,10.0,0.0,5.0,85.0,10.0,✅ Correct
+SandstoneNew_1-83Hz,Holstein_Sandstone,Leitendorf_Limestone,99.93,10,0,0.0,0.0,0.0,100.0,0.0,❌ Incorrect
