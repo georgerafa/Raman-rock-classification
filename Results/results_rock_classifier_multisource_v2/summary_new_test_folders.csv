@@ -1,0 +1,4 @@
+folder,expected_class,new_train_sources,n_images,top_predicted_class,accuracy_pct,mean_confidence_pct
+Gneis_1-83Hz,S10Granite,Granite_3SamplesPhilipp_1-83Hz_1; Granite_3SamplesPhilipp_1-83Hz_2,500,S10Granite,75.2,92.7
+SandstoneNew_1-83Hz,Holstein_Sandstone,none,21,Leitendorf_Limestone,9.52,79.16
+Limestone_Rax_1-83Hz_2,Leitendorf_Limestone,Limestone_CalcsilicaContaminated_U9_U3_1-83Hz; Limestone_CalcsilicaContaminated_U9_U3_5-10Hz; Limestone_Rax_1-83Hz_1,20,Leitendorf_Limestone,70.0,89.48

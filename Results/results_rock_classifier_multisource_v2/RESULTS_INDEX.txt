@@ -1,0 +1,40 @@
+RESULTS INDEX — rock_classifier_multisource_v2
+================================================================================
+ARCH=resnet18  USE_STRONG_AUG=True
+EPOCHS=20  LR=0.0001  OOD_FPR=0.05
+
+KEY RESULTS
+  Original held-out accuracy: 93.97%
+  Dunite OOD: 10/500 flagged (2.0%)
+
+NEW ROCK GENERALISATION (honest eval)
+  Gneis_1-83Hz: acc=75.2%  top_pred=S10Granite  mean_conf=92.7%
+  SandstoneNew_1-83Hz: acc=9.5%  top_pred=Leitendorf  mean_conf=79.2%
+  Limestone_Rax_1-83Hz_2: acc=70.0%  top_pred=Leitendorf  mean_conf=89.5%
+
+FILES
+--------------------------------------------------------------------------------
+  TR-00_training_composition.png
+    Training set breakdown by source folder per class
+
+  TR-01_training_history_v2.png
+    Training and validation accuracy/loss curves for multisource v2 model
+
+  EV-01_confusion_original_test.png
+    Confusion matrix on original held-out test — checks for regression
+
+  EV-02_confidence_histograms_new_test.png
+    Per-image confidence distributions for each new test folder (never seen in training)
+
+  EV-03_mean_softmax_new_test.png
+    Mean softmax probability per class for each new test folder
+
+  OOD-01_energy_dunite_vs_known.png
+    Energy score distributions: known rocks vs Dunite OOD test
+
+  predictions_new_test_folders.csv
+    Per-image predictions for new test folders (honest eval)
+
+  summary_new_test_folders.csv
+    Per-folder accuracy summary for new test folders
+
