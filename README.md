@@ -37,6 +37,8 @@ acquired on a conveyor belt system at two belt speeds.
 ├── inference_new_data.ipynb                        ← Inference on new rocks and baseline results
 ├── rock_classifier_combined.ipynb                  ← Combined train+eval+OOD+inference
 ├── rock_classifier_multisource.ipynb               ← Multi-source training (generalisation fix)
+├── rock_classifier_multisource_v2.ipynb            ← Multi-source training (generalisation fix)
+├── rock_classifier_multisource_v3.ipynb            ← Multi-source training (generalisation fix)
 ├── cnn_1d_train_and_inference.ipynb                ← 1D CNN inference on new rock profiles
 ├── ood_autoencoder_1d.ipynb                        ← 1D autoencoder OOD detector
 ├── rock_classifier_fraction_newrock_test.ipynb     ← Fraction study × old new-rock folders
@@ -69,6 +71,8 @@ acquired on a conveyor belt system at two belt speeds.
 ├── results_inference_new_data/
 ├── results_rock_classifier_combined/
 ├── results_rock_classifier_multisource/
+├── results_rock_classifier_multisource_v2/
+├── results_rock_classifier_multisource_v3/
 ├── results_1d_cnn_inference/
 ├── results_ood_autoencoder_1d/
 ├── results_fraction_newrock_test/
@@ -443,6 +447,72 @@ Lst_Rax_2 tests whether Lst_Rax_1 (same quarry, different session) was enough to
 **Output folder:** `results_rock_classifier_multisource_v2/`
 
 ---
+
+### 11c. `rock_classifier_multisource_v3.ipynb`
+**Multi-source training v3: balanced cross-source evaluation with multiple seeds**
+
+Addresses the remaining limitation of v2 by ensuring every rock variant contributes
+equally to both training and test. Runs 3 seeds with different random 80/20 splits
+per source to confirm results are stable and not dependent on a lucky split.
+
+| | v1 | v2 | **v3 (this notebook)** |
+|---|---|---|---|
+| Split | Random across all — leakage | Folder-based — train on some folders, test on others | **Random 80/20 per source, 3 seeds** |
+| Imbalance fix | None | WeightedRandomSampler | **Hard cap: 300 images per source** |
+| Test set | Inflated | Only unseen folders | **Unseen images from ALL sources simultaneously** |
+| Overall accuracy | Inflated | 93.97% | **94.95% ± 0.38%** |
+
+**Sources and labels:**
+
+| Source | Geological label | Images used |
+|--------|-----------------|-------------|
+| S10Granite original (1.83Hz + 5.10Hz) | Granite | 300 each |
+| Gneis_1-83Hz | Granite | 300 |
+| Granite_3SamplesPhilipp_1 + _2 | Granite | 300 each |
+| Holstein original (1.83Hz + 5.10Hz) | Sandstone | 300 each |
+| Leitendorf original (1.83Hz + 5.10Hz) | Limestone | 300 each |
+| CalcSil_1-83Hz + 5-10Hz | Limestone | 300 each |
+| SandstoneNew (21 imgs) | Excluded — too few | — |
+| Lst_Rax (20–30 imgs each) | Excluded — too few | — |
+| Dunite-Ecologite | OOD — kept out entirely | — |
+
+Each source: 240 train + 60 test per seed. Class-weighted CrossEntropyLoss applied
+to compensate for Sandstone having fewer sources than Granite and Limestone.
+
+**Per-source accuracy results (mean ± std across 3 seeds):**
+
+| Source | Class | Mean | Std |
+|--------|-------|------|-----|
+| S10Granite_orig_183 | Granite | 98.33% | ±1.36% |
+| S10Granite_orig_510 | Granite | 97.22% | ±2.08% |
+| Gneis_183 | Granite | 96.67% | ±2.72% |
+| GranPhil_1 | Granite | 98.89% | ±1.57% |
+| GranPhil_2 | Granite | 97.78% | ±1.57% |
+| Holstein_orig_183 | Sandstone | 87.22% | ±2.83% |
+| Holstein_orig_510 | Sandstone | 93.89% | ±0.79% |
+| Leitendorf_orig_183 | Limestone | 89.44% | ±2.08% |
+| Leitendorf_orig_510 | Limestone | 98.89% | ±0.79% |
+| CalcSil_183 | Limestone | 92.22% | ±2.08% |
+| CalcSil_510 | Limestone | 93.89% | ±0.79% |
+
+**Overall test accuracy: 94.95% ± 0.38%**
+
+**Key findings:**
+- The ±0.38% overall std confirms the result is stable — not a lucky split
+- All granite variants exceed 96.7% :the model successfully learned a broad
+  definition of granite covering S10Granite, Gneis, and GranPhil simultaneously
+- Holstein_orig_183 is the only source below 90% (87.2%): consistent with the
+  Sandstone/Limestone spectral overlap seen throughout the project. The 5.10Hz
+  sandstone (93.9%) outperforms the 1.83Hz (87.2%), the same speed-dependent
+  difference observed in earlier notebooks
+- Small std values (0.8–2.8%) across all sources confirm results are not
+  sensitive to which specific 60 images ended up in the test set
+
+**Input:** `rocks_spectral_224/` + `for_test_data_spectral_224/`
+
+**Output folder:** `results_rock_classifier_multisource_v3/`
+
+ ---
  
 ### 12. `ood_autoencoder_1d.ipynb`
 **1D MLP autoencoder for out-of-distribution detection**
