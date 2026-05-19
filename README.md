@@ -399,6 +399,50 @@ remaining unseen folder — all other folders became training data)
 **Output folder:** `results_rock_classifier_multisource/`
  
 ---
+
+### 11b. `rock_classifier_multisource_v2.ipynb`
+**Multi-source training v2: honest generalisation evaluation**
+
+Addresses two methodological problems in `rock_classifier_multisource.ipynb`:
+
+| | v1 (notebook 11) | v2 (this notebook) |
+|---|---|---|
+| Train/test split | Random 75/25 across all images — new rock images in both train and test | Folder-based: entire folders designated train OR test — no leakage |
+| Class imbalance | Not handled — original ~8,000 images dominate every batch | `WeightedRandomSampler`: each source contributes equally per epoch |
+| Evaluation | Single mixed evaluation (inflated by original data) | Two phases: original held-out test + new-folders-only honest eval |
+
+**Folder split design:**
+
+| Class | New sources in TRAIN | New source in TEST (never seen) |
+|-------|---------------------|---------------------------------|
+| S10Granite | GranPhil_1, GranPhil_2 | Gneis_1-83Hz |
+| Holstein_Sandstone | *(none — no usable new sandstone)* | SandstoneNew_1-83Hz |
+| Leitendorf_Limestone | CalcSil_183, CalcSil_510, Lst_Rax_1 | Limestone_Rax_1-83Hz_2 |
+| OOD | — | Dunite-Ecologite |
+
+Gneis is the hardest granite test — spectral signature differs most from S10Granite.
+SandstoneNew has no new training data at all — the model must transfer purely from original Holstein.
+Lst_Rax_2 tests whether Lst_Rax_1 (same quarry, different session) was enough to generalise.
+
+**Key results:**
+
+| Metric | Value |
+|--------|-------|
+| Original held-out accuracy | 93.97% (vs 99.6% single-source, expected regression from broader decision boundaries) |
+| Gneis accuracy | 75.2% — partial transfer from GranPhil to Gneis |
+| SandstoneNew accuracy | 9.5% — near-random (no new sandstone in training at all) |
+| Limestone_Rax_2 accuracy | 70.0% — partial within-quarry transfer (Rax_1 in train → Rax_2 as test) |
+| Dunite OOD flagged | 2.0% — worse than v1's 3.4% (broader boundaries absorb Dunite more confidently) |
+
+**Key findings:**
+- Multi-source training gives partial but imperfect generalisation. The model needs to have seen spectrally similar patterns during training, it cannot extrapolate to mineralogically different compositions
+- `WeightedRandomSampler` is the principled fix for source imbalance — each image is weighted by `1 / source_size` so every source contributes equally per epoch
+
+**Input:** `rocks_spectral_224/` + `for_test_data_spectral_224/`
+
+**Output folder:** `results_rock_classifier_multisource_v2/`
+
+---
  
 ### 12. `ood_autoencoder_1d.ipynb`
 **1D MLP autoencoder for out-of-distribution detection**
